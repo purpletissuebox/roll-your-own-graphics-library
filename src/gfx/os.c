@@ -1,6 +1,5 @@
 #include "os.h"
 
-#include "stdio.h"
 #include "stdlib.h"
 
 void *GetStdIO()
@@ -19,7 +18,5 @@ void QueryConsoleSize(void *std_io, int *x, int *y)
 
 	*x = current_size.ws_col;
 	*y = current_size.ws_row;
-
-	printf("the window is now %d by %d.", *x, *y);
 #endif
 }
