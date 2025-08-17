@@ -1,9 +1,11 @@
 #include "gfx/os.h"
 #include "gfx/gfxbuffer.h"
-#include "gfx/draw.h"
+#include "gfx/draw3d.h"
+#include "models/pyramid.h"
 
 #include "stdio.h"
 #include "stdlib.h"
+#include "math.h"
 
 int main(void)
 {
@@ -11,7 +13,18 @@ int main(void)
 	int x, y;
 	QueryConsoleSize(stdio, &x, &y);
 	CreateGfxBuffers(x, y, 1.6, 0.5);
-	DrawTriangle(35, 0, 50, 4, 20, 14, COLOR(0, 5, 0));
+
+	struct instance pyramid = {
+		&PYRAMID_MODEL,
+		{
+			{ 0.0, -1.0, 4.0 },
+			ROTATE(0,0,0),
+			{1.0,1.0,1.0},
+		},
+	};
+
+	DrawObject(&pyramid);
+
 	RenderCanvas();
 	puts((char*)gfx_string);
 }
