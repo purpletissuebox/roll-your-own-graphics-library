@@ -1,7 +1,9 @@
-#include "stdio.h"
+#include "gfx/os.h"
 
 int main(void)
 {
-	printf("Hello World!\n");
+	void *stdio = GetStdIO();
+	int x, y;
+	QueryConsoleSize(stdio, &x, &y);
 }
 
