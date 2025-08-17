@@ -8,7 +8,7 @@ PROJECT = ${BUILD_DIR}/ballgame.exe
 
 CPPFLAGS = -MMD
 CFLAGS = -Wall -Werror -g -c
-LDFLAGS = -o ${PROJECT}
+LDFLAGS = -o ${PROJECT} -lm
 
 ################################
 
@@ -35,7 +35,7 @@ from-scratch:
 
 ${PROJECT}: ${OBJ_FILES}
 	@mkdir -p "${@D}"
-	${CC} ${LDFLAGS} $<
+	${CC} $^ ${LDFLAGS}
 
 ${OBJ_DIR}/%.o: %.c ./Makefile
 	@mkdir -p "${@D}"
