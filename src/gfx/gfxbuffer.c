@@ -7,9 +7,9 @@
 struct gfx_cell *gfx_string;
 struct pixel *canvas;
 int canvas_width, canvas_height;
-float viewport_depth;
+double viewport_width, viewport_height, viewport_depth;
 
-void CreateGfxBuffers(int x, int y, double fov)
+void CreateGfxBuffers(int x, int y, double fov, double character_ratio)
 {
 	gfx_string = malloc(x*y*sizeof(*gfx_string) + 4);
 	canvas = malloc(x*y*sizeof(*canvas));
@@ -32,7 +32,9 @@ void CreateGfxBuffers(int x, int y, double fov)
 
 	canvas_width = x;
 	canvas_height = y;
-	viewport_depth = x / (2.0 * tan(fov / 2.0));
+	viewport_depth = 1.0;
+	viewport_width = 2.0 * viewport_depth * tan(fov / 2.0) / character_ratio;
+	viewport_height = viewport_width * canvas_height / canvas_width;
 }
 
 void DestroyGfxBuffers()
