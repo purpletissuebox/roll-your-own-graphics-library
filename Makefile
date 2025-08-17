@@ -6,7 +6,7 @@ PROJECT = ${BUILD_DIR}/ballgame.exe
 
 ################################
 
-CPPFLAGS = -MMD
+CPPFLAGS = -MMD $(SRC_DIR:%=-I%)
 CFLAGS = -Wall -Werror -g -c
 LDFLAGS = -o ${PROJECT} -lm
 
