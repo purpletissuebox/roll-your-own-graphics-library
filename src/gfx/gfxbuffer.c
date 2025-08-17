@@ -15,7 +15,7 @@ void CreateGfxBuffers(int x, int y, double fov)
 	canvas = malloc(x*y*sizeof(*canvas));
 
 	const char terminator[] = "\x1B[H";
-	const char one_pixel[] = { '\x1B','[','3','8',';','5',';','0','0','0','m','\xDB' };
+	const char one_pixel[] = { '\x1B','[','4','8',';','5',';','0','0','0','m',' ' };
 
 	int i, j;
 	struct gfx_cell *p = gfx_string;
@@ -60,13 +60,15 @@ void RenderCanvas()
 {
 	int i, j;
 	struct gfx_cell *p = gfx_string;
+	struct pixel *px = canvas;
 
 	for (i = 0; i < canvas_height; i++)
 	{
 		for (j = 0; j < canvas_width; j++)
 		{
-			WriteColorChar(canvas[j + canvas_width*i].color, p->color_code);
+			WriteColorChar(px->color, p->color_code);
 			p++;
+			px++;
 		}
 	}
 }
