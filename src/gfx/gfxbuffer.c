@@ -4,6 +4,11 @@
 #include "string.h"
 #include "math.h"
 
+struct gfx_cell *gfx_string;
+struct pixel *canvas;
+int canvas_width, canvas_height;
+float viewport_depth;
+
 void CreateGfxBuffers(int x, int y, double fov)
 {
 	gfx_string = malloc(x*y*sizeof(*gfx_string) + 4);
@@ -20,6 +25,7 @@ void CreateGfxBuffers(int x, int y, double fov)
 		for (j = 0; j < x; j++)
 		{
 			memcpy(p++, one_pixel, sizeof(one_pixel));
+			canvas[j + y * i].depth = 0.0;
 		}
 	}
 	memcpy(p, terminator, sizeof(terminator));
@@ -35,13 +41,19 @@ void DestroyGfxBuffers()
 	free(canvas);
 }
 
-void PlotPixel(double x, double y, unsigned char color)
+void PlotPixel(int x, int y, unsigned char color, double depth)
 {
-	int screen_x = x / 2.0 + canvas_width;
-	int screen_y = y / 2.0 - canvas_height;
+	int screen_x = canvas_width/2 + x;
+	int screen_y = canvas_height/2 - y;
 
 	struct pixel (*canv)[canvas_width] = (void*)canvas;
-	canv[screen_y][screen_x].color = color;
+	struct pixel *mypx = &(canv[screen_y][screen_x]);
+
+	if (mypx->depth < depth)
+	{
+		mypx->color = color;
+		mypx->depth = depth;
+	}		
 }
 
 void RenderCanvas()

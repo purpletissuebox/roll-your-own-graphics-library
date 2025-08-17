@@ -13,15 +13,16 @@ struct gfx_cell
 struct pixel
 {
 	unsigned char color;
+	double depth;
 };
 
-struct gfx_cell *gfx_string;
-struct pixel *canvas;
-int canvas_width, canvas_height;
-float viewport_depth;
+extern struct gfx_cell *gfx_string;
+extern struct pixel *canvas;
+extern int canvas_width, canvas_height;
+extern float viewport_depth;
 
 void CreateGfxBuffers(int, int, double);
 void DestroyGfxBuffers();
-void PlotPixel(double, double, unsigned char);
+void PlotPixel(int, int, unsigned char, double);
 void RenderCanvas();
 void WriteColorChar(unsigned char, char *);
