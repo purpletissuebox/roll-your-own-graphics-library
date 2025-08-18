@@ -17,9 +17,9 @@ int main(void)
 	struct instance pyramid = {
 		&PYRAMID_MODEL,
 		{
-			{ 0.0, -1.0, 4.0 },
-			ROTATE(0,0,0),
-			{1.0,1.0,1.0},
+			{ 0.0, -1.0, 6.0 },
+			ROTATE(45,45,45),
+			{ 1.0, 1.0, 1.0 },
 		},
 	};
 
