@@ -3,20 +3,20 @@
 #include "gfx/gfxbuffer.h"
 
 struct vertex PYRAMID_VERTICES[] = {
-	{1, 1, 0},
-	{1, -1, 0},
-	{-1, 1, 0},
-	{-1, -1, 0},
-	{0, 0, 2},
+	{1, 0, 1},
+	{1, 0, -1},
+	{-1, 0, -1},
+	{-1, 0, 1},
+	{0, 2, 0},
 };
 
 struct face PYRAMID_FACES[] = {
-	{{0, 1, 5}, COLOR(0,5,0)},
-	{{1, 2, 5}, COLOR(0,0,5)},
-	{{2, 3, 5}, COLOR(5,0,0)},
-	{{3, 4, 5}, COLOR(5,5,0)},
+	{{0, 1, 4}, COLOR(0,5,0)},
+	{{1, 2, 4}, COLOR(0,0,5)},
+	{{2, 3, 4}, COLOR(5,0,0)},
+	{{3, 0, 4}, COLOR(5,5,0)},
 	{{0, 1, 2}, COLOR(0,5,5)},
-	{{1, 2, 3}, COLOR(0,5,5)},
+	{{2, 3, 0}, COLOR(0,5,5)},
 };
 
 struct model3d PYRAMID_MODEL = {
