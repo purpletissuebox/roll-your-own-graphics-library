@@ -25,16 +25,16 @@ void DrawTriangle(double x0, double y0, double x1, double y1, double x2, double 
 	int i;
 	if (x1 < x3)
 	{
-		for (i = x1; i <= x3; i++)
+		for (i = x1; i <= (int)x3; i++)
 		{
-			PlotPixel(i, y1, color, 1.0);
+			PlotPixel(i, y1, color);
 		}
 	}
 	else
 	{
-		for (i = x3; i <= x1; i++)
+		for (i = x3; i <= (int)x1; i++)
 		{
-			PlotPixel(i, y1, color, 1.0);
+			PlotPixel(i, y1, color);
 		}
 	}
 }
@@ -45,11 +45,11 @@ void DrawFlatTriangle(double tipX, double tipY, double flatY, double slope_L, do
 
 	int i, j;
 
-	for (i = tipY; i != flatY; i+=direction)
+	for (i = tipY; i != (int)flatY; i+=direction)
 	{
 		for (j = acc_L; j <= acc_R; j++)
 		{
-			PlotPixel(j, i, color, 1.0);
+			PlotPixel(j, i, color);
 		}
 		acc_L += slope_L*direction;
 		acc_R += slope_R*direction;
@@ -58,7 +58,7 @@ void DrawFlatTriangle(double tipX, double tipY, double flatY, double slope_L, do
 
 void OrderPoints(double *x0, double *y0, double *x1, double *y1, double *x2, double *y2)
 {
-	int tmp;
+	double tmp;
 
 	if (*y1 > *y0)
 	{
