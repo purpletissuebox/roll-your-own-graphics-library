@@ -1,6 +1,8 @@
 #pragma once
 
-#define ROTATE(a, b, c) \
+#define ROTATE(a,b,c) ROTATE_RAD(a*M_PI/180.0, b*M_PI/180.0, c*M_PI/180.0)
+
+#define ROTATE_RAD(a, b, c) \
 { \
 	{cos(b)*cos(c), sin(a)*sin(b)*cos(c) - cos(a)*sin(c), cos(a)*sin(b)*cos(c) + sin(a)*sin(c)}, \
 	{cos(b)*sin(c), sin(a)*sin(b)*sin(c) + cos(a)*cos(c), cos(a)*sin(b)*sin(c) - sin(a)*cos(c)}, \
