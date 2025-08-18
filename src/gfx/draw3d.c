@@ -4,10 +4,13 @@
 #include "draw.h"
 #include "math/matrix.h"
 
-void ProjectPoint(double x, double y, double z, double *vx, double *vy)
+void ProjectPoint(double x, double y, double z, double *cx, double *cy)
 {
-	*vx = x * viewport_depth / z;
-	*vy = y * viewport_depth / z;
+	double vx = x * viewport_depth / z;
+	double vy = y * viewport_depth / z;
+
+	*cx = vx * canvas_width / viewport_width;
+	*cy = vy * canvas_height / viewport_height;
 }
 
 void DrawObject(struct instance *thing)
