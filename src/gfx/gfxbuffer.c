@@ -33,8 +33,8 @@ void CreateGfxBuffers(int x, int y, double fov, double character_ratio)
 	canvas_width = x;
 	canvas_height = y;
 	viewport_depth = 1.0;
-	viewport_width = 2.0 * viewport_depth * tan(fov / 2.0) / character_ratio;
-	viewport_height = viewport_width * canvas_height / canvas_width;
+	viewport_width = 2.0 * viewport_depth * tan(fov / 2.0) * character_ratio;
+	viewport_height = viewport_width * canvas_height / canvas_width / character_ratio;
 }
 
 void DestroyGfxBuffers()
@@ -43,19 +43,14 @@ void DestroyGfxBuffers()
 	free(canvas);
 }
 
-void PlotPixel(int x, int y, unsigned char color, double depth)
+void PlotPixel(int x, int y, unsigned char color)
 {
 	int screen_x = canvas_width/2 + x;
 	int screen_y = canvas_height/2 - y;
 
 	struct pixel (*canv)[canvas_width] = (void*)canvas;
-	struct pixel *mypx = &(canv[screen_y][screen_x]);
 
-	if (mypx->depth < depth)
-	{
-		mypx->color = color;
-		mypx->depth = depth;
-	}		
+	canv[screen_y][screen_x].color = color;
 }
 
 void RenderCanvas()
