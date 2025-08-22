@@ -4,7 +4,7 @@
 
 void FillRotationMatrix(double a, double b, double c, double(*matrix)[4])
 {
-	double *p = matrix;
+	double *p = (double*)matrix;
 	*p++ = cos(b) * cos(c);
 	*p++ = sin(a) * sin(b) * cos(c) - cos(a) * sin(c);
 	*p++ = cos(a) * sin(b) * cos(c) + sin(a) * sin(c);
@@ -25,7 +25,7 @@ void FillRotationMatrix(double a, double b, double c, double(*matrix)[4])
 
 void FillScaleMatrix(double x, double y, double z, double(*matrix)[4])
 {
-	double *p = matrix;
+	double *p = (double*)matrix;
 	*p++ = x;
 	*p++ = 0.0;
 	*p++ = 0.0;
@@ -46,7 +46,7 @@ void FillScaleMatrix(double x, double y, double z, double(*matrix)[4])
 
 void FillTranslationMatrix(double x, double y, double z, double(*matrix)[4])
 {
-	double *p = matrix;
+	double *p = (double*)matrix;
 	*p++ = 1.0;
 	*p++ = 0.0;
 	*p++ = 0.0;
@@ -67,7 +67,7 @@ void FillTranslationMatrix(double x, double y, double z, double(*matrix)[4])
 
 void FillProjectionMatrix(double vx, double vy, double cx, double cy, double d, double(*matrix)[4])
 {
-	double *p = matrix;
+	double *p = (double*)matrix;
 	*p++ = d * cx / vx;
 	*p++ = 0.0;
 	*p++ = 0.0;
@@ -82,7 +82,7 @@ void FillProjectionMatrix(double vx, double vy, double cx, double cy, double d, 
 	*p++ = 0.0;
 }
 
-void MatrixMultiplyM4(double(*mat1)[4], double(*mat2)[4]), double(*result)[4])
+void MatrixMultiplyM4(double(*mat1)[4], double(*mat2)[4], double(*result)[4])
 {
 	int i, j, k;
 	double acc;
