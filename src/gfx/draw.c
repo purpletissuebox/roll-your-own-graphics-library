@@ -1,78 +1,53 @@
 #include "draw.h"
 #include "gfxbuffer.h"
+#include "math.h"
 
-void DrawTriangle(double x0, double y0, double x1, double y1, double x2, double y2, unsigned char color)
+void PaintUpTriangle(double *tip_pos, double bottom, double left_slope, double right_slope, double left_dslope, double right_dslope, unsigned char color)
 {
-	OrderPoints(&x0, &y0, &x1, &y1, &x2, &y2);
-
-	double slope02 = (x2 - x0) / (y2 - y0);
-	double slope01 = (x1 - x0) / (y1 - y0);
-	double slope12 = (x2 - x1) / (y2 - y1);
-
-	double x3 = x0 + slope02*(y1-y0);
-
-	if (x1 < x3)
-	{
-		DrawFlatTriangle(x0, y0, y1, slope01, slope02, -1, color);
-		DrawFlatTriangle(x2, y2, y1, slope12, slope02, +1, color);
-	}
-	else
-	{
-		DrawFlatTriangle(x0, y0, y1, slope02, slope01, -1, color);
-		DrawFlatTriangle(x2, y2, y1, slope02, slope12, +1, color);
-	}
-
-	int i;
-	if (x1 < x3)
-	{
-		for (i = x1; i <= (int)x3; i++)
-		{
-			PlotPixel(i, y1, color);
-		}
-	}
-	else
-	{
-		for (i = x3; i <= (int)x1; i++)
-		{
-			PlotPixel(i, y1, color);
-		}
-	}
-}
-
-void DrawFlatTriangle(double tipX, double tipY, double flatY, double slope_L, double slope_R, int direction, unsigned char color)
-{
-	double acc_L = tipX, acc_R = tipX;
+	double acc_L = tip_pos[0];
+	double acc_R = tip_pos[0];
+	double acc_dL = tip_pos[2];
+	double acc_dR = tip_pos[2];
+	double depth_slope, d;
 
 	int i, j;
-
-	for (i = tipY; i != (int)flatY; i+=direction)
+	for (i = lround(tip_pos[1]); i >= lround(bottom); i--)
 	{
-		for (j = acc_L; j <= acc_R; j++)
+		depth_slope = (acc_dR - acc_dL) / (acc_R - acc_L);
+		for (j = lround(acc_L); j <= lround(acc_R); j++)
 		{
-			PlotPixel(j, i, color);
+			d = acc_dL;
+			PlotPixel(j, i, color, d);
+			d += depth_slope;
 		}
-		acc_L += slope_L*direction;
-		acc_R += slope_R*direction;
+		acc_L -= left_slope;
+		acc_R -= right_slope;
+		acc_dL -= left_dslope;
+		acc_dR -= right_dslope;
 	}
 }
 
-void OrderPoints(double *x0, double *y0, double *x1, double *y1, double *x2, double *y2)
+void PaintDownTriangle(double *tip_pos, double top, double left_slope, double right_slope, double left_dslope, double right_dslope, unsigned char color)
 {
-	double tmp;
+	double acc_L = tip_pos[0];
+	double acc_R = tip_pos[0];
+	double acc_dL = tip_pos[2];
+	double acc_dR = tip_pos[2];
+	double depth_slope, d;
 
-	if (*y1 > *y0)
+	int i, j;
+	for (i = lround(tip_pos[1]); i <= lround(top); i++)
 	{
-		tmp = *x0; *x0 = *x1; *x1 = tmp;
-		tmp = *y0; *y0 = *y1; *y1 = tmp;
-	}
-	if (*y2 > *y0)
-	{
-		tmp = *x0; *x0 = *x2; *x2 = tmp;
-		tmp = *y0; *y0 = *y2; *y2 = tmp;
-	}
-	if (*y2 > *y1)
-	{
-		tmp = *x1; *x1 = *x2; *x2 = tmp;
-		tmp = *y1; *y1 = *y2; *y2 = tmp;
+		depth_slope = (acc_dR - acc_dL) / (acc_R - acc_L);
+		for (j = lround(acc_L); j <= lround(acc_R); j++)
+		{
+			d = acc_dL;
+			PlotPixel(j, i, color, d);
+			d += depth_slope;
+		}
+		acc_L += left_slope;
+		acc_R += right_slope;
+		acc_dL += left_dslope;
+		acc_dR += right_dslope;
 	}
 }

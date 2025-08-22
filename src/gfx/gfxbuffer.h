@@ -23,6 +23,7 @@ extern double viewport_width, viewport_height, viewport_depth;
 
 void CreateGfxBuffers(int, int, double, double);
 void DestroyGfxBuffers();
-void PlotPixel(int, int, unsigned char);
+void PlotPixel(int, int, unsigned char, double);
 void RenderCanvas();
+void ClearCanvas();
 void WriteColorChar(unsigned char, char *);

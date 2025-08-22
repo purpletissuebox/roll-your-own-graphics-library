@@ -11,45 +11,36 @@
 
 struct face
 {
-	int vertices[3];
+	int vertex_ids[3];
 	unsigned char color;
 };
 
 struct vertex
 {
-	double x;
-	double y;
-	double z;
+	double position[4];
+	double u;
+	double v;
+	double r;
+	double g;
+	double b;
 };
 
 struct model3d
 {
-	int num_triangles, num_vertices;
-	struct face *faces;
-	struct vertex *vertices;
-};
-
-struct transform
-{
-	double position[3];
-	double rotation[3][3];
-	double scale[3];
+	const struct face *faces;
+	const struct vertex *vertices;
+	int num_triangles;
 };
 
 struct instance
 {
-	struct model3d *graphic;
-	struct transform transform;
+	const struct model3d *graphic;
+	double transform[4][4];
 };
 
-struct poly
-{
-	struct vertex points[3];
-	unsigned char color;
-};
-
-void ProjectPoint(double, double, double, double *, double *);
-void DrawObject(struct instance *);
-void DrawFace(struct poly *);
-struct poly TransformFace(struct face *, struct vertex *, struct transform *);
-struct vertex TransformVertex(struct vertex *, struct transform *);
+void DrawObject(struct instance *, double(*)[4]);
+int FrontFacing(struct vertex *);
+struct vertex *ClipTriangle(struct vertex *);
+void RenderTriangle(struct vertex *, unsigned char);
+void ProjectVertices(struct vertex *);
+void SortVertices(struct vertex *, struct vertex **, struct vertex **, struct vertex **);

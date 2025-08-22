@@ -13,6 +13,7 @@ void CreateGfxBuffers(int x, int y, double fov, double character_ratio)
 {
 	gfx_string = malloc(x*y*sizeof(*gfx_string) + 4);
 	canvas = malloc(x*y*sizeof(*canvas));
+	ClearCanvas();
 
 	const char terminator[] = "\x1B[H";
 	const char one_pixel[] = { '\x1B','[','4','8',';','5',';','0','0','0','m',' ' };
@@ -43,14 +44,18 @@ void DestroyGfxBuffers()
 	free(canvas);
 }
 
-void PlotPixel(int x, int y, unsigned char color)
+void PlotPixel(int x, int y, unsigned char color, double depth)
 {
 	int screen_x = canvas_width/2 + x;
 	int screen_y = canvas_height/2 - y;
 
-	struct pixel (*canv)[canvas_width] = (void*)canvas;
+	struct pixel *mypx = canvas + screen_y*canvas_width + screen_x;
 
-	canv[screen_y][screen_x].color = color;
+	if (depth > mypx->depth)
+	{
+		mypx->color = color;
+		mypx->depth = depth;
+	}
 }
 
 void RenderCanvas()
@@ -66,6 +71,22 @@ void RenderCanvas()
 			WriteColorChar(px->color, p->color_code);
 			p++;
 			px++;
+		}
+	}
+}
+
+void ClearCanvas()
+{
+	struct pixel *p = canvas;
+	int i, j;
+
+	for (i = 0; i < canvas_height; i++)
+	{
+		for (j = 0; j < canvas_width; j++)
+		{
+			p->color = 0;
+			p->depth = 0;
+			p++;
 		}
 	}
 }
